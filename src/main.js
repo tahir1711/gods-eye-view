@@ -1,4 +1,4 @@
-import * as Cesium from 'cesium';
+﻿import * as Cesium from 'cesium';
 import { StyleManager } from './ui.js';
 import { flyToAustin } from './camera.js';
 import { DataLayerManager } from './data/manager.js';
@@ -34,13 +34,15 @@ import { installScopeMask } from './scopeMask.js';
 import { initFirstRunExperience } from './firstRunExperience.js';
 import { initKeySetup } from './keySetup.js';
 import { loadPhotorealisticTileset } from './mapStartup.js';
+import { initPhase9Market } from './phase9Market.js';
 
 initLogoGaze();
+initPhase9Market();
 
 /**
  * Extract a human-readable error message from any thrown value.
  * Handles Error objects, strings, and plain objects with message/error fields.
- * @param {*} error — caught exception value
+ * @param {*} error â€” caught exception value
  * @returns {string} best-effort error description
  */
 function describeError(error) {
@@ -64,7 +66,7 @@ function describeError(error) {
 }
 
 /**
- * GOD'S EYE VIEW — Main Entry Point
+ * GOD'S EYE VIEW â€” Main Entry Point
  * Initializes CesiumJS with Google Photorealistic 3D Tiles,
  * style system, intelligence HUD, location presets, and share links.
  */
@@ -95,11 +97,11 @@ async function init() {
       selectionIndicator: false,
       infoBox: false,
       baseLayer: false,
-      // Visible attribution container — Google Maps / 3D Tiles credits are
+      // Visible attribution container â€” Google Maps / 3D Tiles credits are
       // required by Google's Terms of Service, so they must be shown (styled
       // subtly via #cesium-credits). The credit line stays visible in
       // clean-view AND recording modes too (ToS requires attribution while the
-      // content is displayed — those are the exact modes used to record
+      // content is displayed â€” those are the exact modes used to record
       // demos), including the "Data attribution" link that opens the per-layer
       // license popover.
       creditContainer: (() => {
@@ -117,7 +119,7 @@ async function init() {
     });
 
     // Cap the default render loop at 60 fps. Cesium's loop otherwise runs at
-    // the display's refresh rate — 120 Hz on ProMotion panels — doubling GPU
+    // the display's refresh rate â€” 120 Hz on ProMotion panels â€” doubling GPU
     // and CPU burn for zero visual benefit in a map app whose animation
     // cadences (poll interpolation, trail fades, style crossfades) are all
     // designed against wall-clock time, not frame count. Measured on the
@@ -132,8 +134,8 @@ async function init() {
     // clutter the on-globe line. See docs/pre-ship-audit-2026-07-01.md H11.
     registerDataCredits(viewer);
 
-    // Hide Cesium's default globe — Google Photorealistic 3D Tiles provide their own
-    // globe at all LODs (street level → orbital). The default globe's 2D imagery
+    // Hide Cesium's default globe â€” Google Photorealistic 3D Tiles provide their own
+    // globe at all LODs (street level â†’ orbital). The default globe's 2D imagery
     // clips through 3D tile buildings at close range.
     viewer.scene.globe.show = false;
 
@@ -155,7 +157,7 @@ async function init() {
     const tileset = photoreal.tileset;
     if (tileset) {
       viewer.scene.primitives.add(tileset);
-      // NOTE: Cesium World Terrain intentionally disabled — conflicts with Google 3D Tiles at high zoom.
+      // NOTE: Cesium World Terrain intentionally disabled â€” conflicts with Google 3D Tiles at high zoom.
       // Google Photorealistic 3D Tiles provide their own terrain/elevation.
       viewer.scene.globe.show = false;
       console.info(`[Init] Google 3D Tiles loaded via ${photoreal.route}.`);
@@ -278,20 +280,20 @@ async function init() {
     // its chance to register pre-install holds. (perf wave 2)
     installRenderGovernor(viewer);
 
-    // The explicit scope mask replaces the emergent six-pass artifact —
+    // The explicit scope mask replaces the emergent six-pass artifact â€”
     // see src/scopeMask.js. Installed before the UI so the DISPLAY-rail
     // toggle finds it live.
     installScopeMask(viewer);
 
     // The follow camera recomputes the tracked target's dead-reckon position
-    // every frame — tracking anything is a per-frame animation. (perf wave 2)
+    // every frame â€” tracking anything is a per-frame animation. (perf wave 2)
     viewer.trackedEntityChanged.addEventListener(() => {
       if (viewer.trackedEntity) holdContinuousRender('tracked-entity');
       else releaseContinuousRender('tracked-entity');
     });
 
     // Hidden-state suspension (perf wave 2): when the window/tab is hidden,
-    // stop the default render loop outright — a hidden canvas repaints for
+    // stop the default render loop outright â€” a hidden canvas repaints for
     // nobody, and browser rAF throttling still lets throttled frames burn
     // GPU. Holder/data state is untouched, so return is seamless: restore
     // the loop, refresh the one DOM surface we gated, render a frame.
@@ -308,7 +310,7 @@ async function init() {
       }
     };
     document.addEventListener('visibilitychange', syncVisibilitySuspension);
-    // Apply the CURRENT state too — bootstrap can complete while the tab is
+    // Apply the CURRENT state too â€” bootstrap can complete while the tab is
     // already hidden, and waiting for the next transition would leave the
     // loop burning behind a hidden tab. (perf wave 2 fix)
     syncVisibilitySuspension();

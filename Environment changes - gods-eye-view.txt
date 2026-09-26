@@ -1,0 +1,62 @@
+# Terminal Environment Changes
+
+## Extension: GitHub.copilot-chat
+
+Enables use of `copilot-debug` and `copilot` commands in the terminal
+
+- `COPILOT_DEBUG_NONCE=6f51b74442eca8d59d8ee0d1748ffe03`
+- `PATH=c:\Users\Vantage\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\debugCommand;c:\Users\Vantage\AppData\Roaming\Code\User\globalStorage\github.copilot-chat\copilotCli;${env:PATH}`
+
+## Extension: Anthropic.claude-code
+
+- `CLAUDE_CODE_SSE_PORT=64823`
+
+## Extension: ms-python.debugpy
+
+Enables use of [no-config debugging](https://github.com/microsoft/vscode-python-debugger/wiki/No%E2%80%90Config-Debugging), `debugpy <script.py>`, in the terminal.
+
+- `PYDEVD_DISABLE_FILE_VALIDATION=1`
+- `VSCODE_DEBUGPY_ADAPTER_ENDPOINTS=c:\Users\Vantage\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\.noConfigDebugAdapterEndpoints\endpoint-66b52f1c8fb4ff5b.txt`
+- `PATH=${env:PATH};c:\Users\Vantage\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\scripts\noConfigScripts`
+- `BUNDLED_DEBUGPY_PATH=c:\Users\Vantage\.vscode\extensions\ms-python.debugpy-2026.6.0-win32-x64\bundled\libs\debugpy`
+
+## Extension: vscjava.vscode-java-debug
+
+- `VSCODE_JDWP_ADAPTER_ENDPOINTS=c:\Users\Vantage\.vscode\extensions\vscjava.vscode-java-debug-0.59.0\.noConfigDebugAdapterEndpoints\endpoint-2895a98bf3e9d332.txt`
+- `PATH=${env:PATH};c:\Users\Vantage\.vscode\extensions\vscjava.vscode-java-debug-0.59.0\bundled\scripts\noConfigScripts`
+
+## Extension: vadimcn.vscode-lldb
+
+No-config debugging
+
+- `PATH=c:\Users\Vantage\.vscode\extensions\vadimcn.vscode-lldb-1.12.3\bin;${env:PATH}`
+- `CODELLDB_LAUNCH_CONNECT_FILE=c:\Users\Vantage\AppData\Roaming\Code\User\workspaceStorage\c567bfc5ed497f8107f14e0c06b6ed3b\vadimcn.vscode-lldb\rpcaddress.txt`
+
+## Extension: ms-python.python
+
+Enables `python.terminal.shellIntegration.enabled` by modifying `PYTHONSTARTUP` and `PYTHON_BASIC_REPL`
+
+- `PYTHONSTARTUP=c:\Users\Vantage\AppData\Roaming\Code\User\workspaceStorage\c567bfc5ed497f8107f14e0c06b6ed3b\ms-python.python\pythonrc.py`
+- `PYTHON_BASIC_REPL=1`
+
+## Extension: vscode.git
+
+Enables the following features: git auth provider
+
+- `GIT_ASKPASS=c:\Users\Vantage\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass.sh`
+- `VSCODE_GIT_ASKPASS_NODE=C:\Users\Vantage\AppData\Local\Programs\Microsoft VS Code\Code.exe`
+- `VSCODE_GIT_ASKPASS_EXTRA_ARGS=`
+- `VSCODE_GIT_ASKPASS_MAIN=c:\Users\Vantage\AppData\Roaming\Code\User\globalStorage\vscode.git\askpass\70789581cae28aa7\askpass-main.js`
+- `VSCODE_GIT_IPC_HANDLE=\\.\pipe\vscode-git-368988fe34-sock`
+
+## Extension: oven.bun-vscode
+
+Bun's VSCode extension communicates with Bun over a socket. We set the url in your terminal with the `BUN_INSPECT_NOTIFY` environment variable
+
+- `BUN_INSPECT_CONNECT_TO=tcp://127.0.0.1:63967`
+
+## Extension: WallabyJs.console-ninja
+
+Enables use of the `console-ninja` command in the terminal.
+
+- `PATH=${env:PATH};C:\Users\Vantage\.console-ninja\.bin`
