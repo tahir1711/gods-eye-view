@@ -1,0 +1,20 @@
+{
+  "phase": "DHA Lahore Phase 9 Prism",
+  "status": "COMPLETE",
+  "release": "GE-P9-FINAL-20260927_013510",
+  "engineering_plots": 19285,
+  "sectors": 16,
+  "market_bearing_plots": 1068,
+  "accepted_claims": 5690,
+  "linked_posting_events": 15965,
+  "held_events_excluded": 8305,
+  "tier1_geometry_mutations": 0,
+  "postgis_publication": "PASS",
+  "qgis_governed_reopen": "PASS",
+  "frontend_build": "PASS",
+  "runtime_smoke": "PASS",
+  "targeted_tests": "4/4 PASS",
+  "active_document_stale_refs": 0,
+  "authoritative_cadastral_certification": "EXTERNAL_EVIDENCE_GATE",
+  "next_replication_phase": "DHA Lahore Phase 6"
+}

@@ -1,4 +1,4 @@
-/** Local, read-only Block F market snapshot. Prices are dealer asks. */
+/** Phase 9 Prism governed read-only market snapshot. Prices are dealer asks. */
 const fmt = value => new Intl.NumberFormat('en-PK').format(value);
 const esc = value => String(value).replace(/[&<>"']/g, char => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
@@ -11,16 +11,16 @@ export function initPhase9Market() {
   const button = document.createElement('button');
   button.id = 'phase9-market-button';
   button.type = 'button';
-  button.textContent = 'F · MARKET';
-  button.setAttribute('aria-label', 'Open Phase 9 Prism Block F market data');
+  button.textContent = '9P · MARKET';
+  button.setAttribute('aria-label', 'Open DHA Phase 9 Prism market data');
   nav.append(button);
   const panel = document.createElement('section');
   panel.id = 'phase9-market-panel';
-  panel.setAttribute('aria-label', 'Block F market intelligence');
+  panel.setAttribute('aria-label', 'Phase 9 Prism market intelligence');
   panel.hidden = true;
-  panel.innerHTML = `<header><strong>PHASE 9 PRISM · BLOCK F</strong><button type="button" id="phase9-market-close" aria-label="Close market panel">×</button></header>
-    <p id="phase9-market-status">Loading local snapshot…</p>
-    <label>Plot ID <input id="phase9-market-search" type="search" placeholder="F-1304" autocomplete="off"></label>
+  panel.innerHTML = `<header><strong>DHA PHASE 9 PRISM · FULL MARKET</strong><button type="button" id="phase9-market-close" aria-label="Close market panel">×</button></header>
+    <p id="phase9-market-status">Loading governed Phase 9 snapshot…</p>
+    <label>Plot ID <input id="phase9-market-search" type="search" placeholder="A-36, F-1304…" autocomplete="off"></label>
     <div id="phase9-market-results" role="status"></div>`;
   document.body.append(panel);
 
@@ -56,19 +56,19 @@ export function initPhase9Market() {
       <details><summary>Claim history and evidence hashes</summary><ul>${p.history.slice().reverse().map(h =>
         `<li>${esc(h.observed_at_local)} · ${price(h.asking_price_pkr)}${h.unit_assumed ? ' · inferred unit' : ''}<small>SHA256: ${esc(h.evidence_sha256)}</small></li>`
       ).join('')}</ul></details></article>`).join('') :
-      '<p>No observed Block F plot matches. Other certified plots have no price claim in this snapshot.</p>';
+      '<p>No observed plot matches. No observation means unknown, not sold/off-market.</p>';
   }
   button.addEventListener('click', async () => {
     panel.hidden = !panel.hidden;
     if (panel.hidden || snapshot) return;
     try {
-      const response = await fetch('/phase9/blockf-market.json', { cache: 'no-store' });
+      const response = await fetch('/phase9/market.json', { cache: 'no-store' });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       snapshot = await response.json();
-      if (snapshot.independent_claim_count !== 691 || snapshot.observed_plot_count !== 134) throw new Error('Snapshot count mismatch');
-      status.textContent = `${snapshot.observed_plot_count}/${snapshot.certified_plot_count} certified plots have asking-price claims · ${snapshot.independent_claim_count} claims · published ${snapshot.published_at_utc.slice(0, 10)} UTC. Dealer asks, not sales or valuations.`;
+      if (snapshot.independent_claim_count !== 5690 || snapshot.observed_plot_count !== 1068 || snapshot.engineering_plot_count !== 19285 || snapshot.sector_count !== 16) throw new Error('Snapshot count mismatch');
+      status.textContent = `${snapshot.observed_plot_count}/${snapshot.engineering_plot_count} engineering plots have historical asking evidence · ${snapshot.independent_claim_count} claims · published ${snapshot.published_at_utc.slice(0, 10)} UTC. Dealer asks, not sales or valuations.`;
       render();
-    } catch (error) { status.textContent = `Market snapshot unavailable: ${error.message}`; }
+    } catch (error) { status.textContent = `Phase 9 market publication unavailable: ${error.message}`; }
   });
   panel.querySelector('#phase9-market-close').addEventListener('click', () => { panel.hidden = true; });
   search.addEventListener('input', render);
