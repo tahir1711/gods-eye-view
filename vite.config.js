@@ -7752,26 +7752,12 @@ export default defineConfig(({ mode }) => {
       keySetupEndpoint(),
     ],
     server: {
-      host: env.HOST || 'localhost',
-      port: parseInt(env.PORT, 10) || 4173,
-      // When binding to all interfaces, allow any host; otherwise restrict to local names
-      allowedHosts: (env.HOST === '0.0.0.0' || env.HOST === '::')
-        ? true
-        : localAllowedHosts,
+      host: '0.0.0.0',
+      port: 3000,
+      allowedHosts: true,
       fs: {
         // Pinokio keeps optional credentials in this ignored local file.
         deny: ['.env', '.env.*', '*.{crt,pem}', '**/.git/**', '**/ENVIRONMENT'],
-      },
-      // Framing protection belongs on the APP DOCUMENT, not on API responses:
-      // a browser evaluates frame-ancestors against the framed page's own
-      // navigation response. Without this, a hostile page could frame
-      // `/?setup=1`, align a lure over Provider Settings, and have the framed
-      // app issue a perfectly same-origin credential write that passes every
-      // Host/Origin check. These headers apply to everything this dev server
-      // serves, which is what makes that attack impossible rather than unlikely.
-      headers: {
-        'X-Frame-Options': 'DENY',
-        'Content-Security-Policy': "frame-ancestors 'none'",
       },
     },
     // Expose selected API keys to the browser via import.meta.env.*
